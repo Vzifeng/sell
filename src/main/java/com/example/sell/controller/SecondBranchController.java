@@ -15,4 +15,9 @@ public class SecondBranchController {
     public String ddd(){
         return "sssssssssssss";
     }
+
+    @RequestMapping(value = "/fff",method = RequestMethod.GET)
+    public String fff(){
+        return "gggggggggggg";
+    }
 }
