@@ -1,0 +1,5 @@
+<root>
+    <item name='org.hibernate.annotations.LazyCollection'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>

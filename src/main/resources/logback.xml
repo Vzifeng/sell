@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true">
+    <!-- 定义日志的根目录 -->
+    <property name="LOG_HOME" value="D:" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss.SSS} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <!--info文件输出-->
+    <appender name="infoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>
+                %d - %msg%n
+            </pattern>
+        </encoder>
+        <!--路径-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/sell - gooo.%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    <!--error文件输出-->
+    <appender name="errorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>
+                %d - %msg%n
+            </pattern>
+        </encoder>
+        <!--路径-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/sell - error.%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="infoLog"/>
+        <appender-ref ref="errorLog"/>
+    </root>
+</configuration>
