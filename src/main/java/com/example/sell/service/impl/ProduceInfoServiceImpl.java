@@ -8,19 +8,29 @@ import com.example.sell.exception.SellException;
 import com.example.sell.po.ProduceInfo;
 import com.example.sell.service.ProduceInfoService;
 import com.example.sell.utils.UUIDUtil;
+import com.example.sell.vo.ResultVo;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class ProduceInfoServiceImpl implements ProduceInfoService {
+    private static final Logger logger = LoggerFactory.getLogger(ProduceInfoServiceImpl.class);
+
     @Autowired
     private ProduceInfoDao produceInfoDao;
 
@@ -87,6 +97,46 @@ public class ProduceInfoServiceImpl implements ProduceInfoService {
             }
             produceInfo.setProduceStock(aa);
             produceInfoDao.save(produceInfo);
+        }
+    }
+
+    @Override
+    public ResultVo uploadFile(MultipartFile file) {
+        String targetFilePath = "D://app";
+        String fileSuffix = getFileSuffix(file);
+        //String fileName = UUID.randomUUID().toString().replace("-", "");
+        String fileName = file.getOriginalFilename().substring(0,file.getOriginalFilename().lastIndexOf("."));
+        if (fileSuffix != null) {   // 拼接后缀
+            fileName += fileSuffix;
+        }
+        File targetFile = new File(targetFilePath + File.separator + fileName);
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(targetFile);
+            IOUtils.copy(file.getInputStream(), fileOutputStream);
+        } catch (IOException e) {
+            logger.error("失败",e);
+        } finally {
+            try {
+                fileOutputStream.close();
+            } catch (IOException e) {
+                logger.error("", e);
+            }
+        }
+        return new ResultVo<>(1,"成功",null);
+    }
+
+
+    private String getFileSuffix(MultipartFile file) {
+        if (file == null) {
+            return null;
+        }
+        String fileName = file.getOriginalFilename();
+        int suffixIndex = fileName.lastIndexOf(".");
+        if (suffixIndex == -1) {    // 无后缀
+            return null;
+        } else {                    // 存在后缀
+            return fileName.substring(suffixIndex, fileName.length());
         }
     }
 }

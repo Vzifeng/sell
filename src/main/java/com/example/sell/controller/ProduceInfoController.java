@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,5 +79,11 @@ public class ProduceInfoController {
         PageRequest pageRequest = new PageRequest(num,size);
         Page<ProduceInfo> produceInfoPage = produceInfoService.findAll(pageRequest);
         return ResultUtil.success(produceInfoPage);
+    }
+    @ApiOperation(value = "文件上传")
+    @RequestMapping(value = "/uploadFile",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultVo uploadFile(@RequestParam("file")MultipartFile file){
+        return produceInfoService.uploadFile(file);
     }
 }

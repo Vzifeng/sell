@@ -2,8 +2,10 @@ package com.example.sell.service;
 
 import com.example.sell.dto.CartDto;
 import com.example.sell.po.ProduceInfo;
+import com.example.sell.vo.ResultVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.List;
@@ -22,4 +24,6 @@ public interface ProduceInfoService {
     void increaseStock(List<CartDto> cartDtoList);
     //增库存
     void decreaseStock(List<CartDto> cartDtoList);
+
+    ResultVo uploadFile(MultipartFile file);
 }
