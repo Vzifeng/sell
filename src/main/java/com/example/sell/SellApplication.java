@@ -12,5 +12,7 @@ public class SellApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SellApplication.class, args);
+		//12536
+		//123456
     }
 }
