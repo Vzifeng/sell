@@ -102,7 +102,7 @@ public class ProduceInfoServiceImpl implements ProduceInfoService {
 
     @Override
     public ResultVo uploadFile(MultipartFile file) {
-        String targetFilePath = "D://app";
+        String targetFilePath = "src/main/resources/static";
         String fileSuffix = getFileSuffix(file);
         //String fileName = UUID.randomUUID().toString().replace("-", "");
         String fileName = file.getOriginalFilename().substring(0,file.getOriginalFilename().lastIndexOf("."));
